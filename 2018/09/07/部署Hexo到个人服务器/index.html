@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vps部署hexo博客," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简介一直想搭建一个完全属于自己掌控的博客小站，从搬瓦工上租了一个服务器，Godaddy上买了域名后终于可以开始博客的搭建了。这里我选择基于Nodejs的开源静态博客框架Hexo，其安装简单，文档丰富，支持MarkDown写作，配合上Git非常方便博客的保存和转移，对于我这种网页小白再适合不过了。虽然Hexo是静态博客，也同样有办法添加评论功能。下面将介绍我的配置具体步骤。">
+<meta name="keywords" content="vps部署hexo博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署Hexo到个人服务器">
+<meta property="og:url" content="http://yoursite.com/2018/09/07/部署Hexo到个人服务器/index.html">
+<meta property="og:site_name" content="云麦笔记">
+<meta property="og:description" content="简介一直想搭建一个完全属于自己掌控的博客小站，从搬瓦工上租了一个服务器，Godaddy上买了域名后终于可以开始博客的搭建了。这里我选择基于Nodejs的开源静态博客框架Hexo，其安装简单，文档丰富，支持MarkDown写作，配合上Git非常方便博客的保存和转移，对于我这种网页小白再适合不过了。虽然Hexo是静态博客，也同样有办法添加评论功能。下面将介绍我的配置具体步骤。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/Hexo教程.jpg">
+<meta property="og:updated_time" content="2018-09-07T07:51:56.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="部署Hexo到个人服务器">
+<meta name="twitter:description" content="简介一直想搭建一个完全属于自己掌控的博客小站，从搬瓦工上租了一个服务器，Godaddy上买了域名后终于可以开始博客的搭建了。这里我选择基于Nodejs的开源静态博客框架Hexo，其安装简单，文档丰富，支持MarkDown写作，配合上Git非常方便博客的保存和转移，对于我这种网页小白再适合不过了。虽然Hexo是静态博客，也同样有办法添加评论功能。下面将介绍我的配置具体步骤。">
+<meta name="twitter:image" content="http://yoursite.com/images/Hexo教程.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/07/部署Hexo到个人服务器/"/>
+
+
+
+
+
+  <title>部署Hexo到个人服务器 | 云麦笔记</title>
+  
+
+
+
+
+
+
+
+
+  </head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云麦笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/07/部署Hexo到个人服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ask">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云麦笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">部署Hexo到个人服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T15:40:49+08:00">
+                2018-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id=""><a href="#" class="headerlink" title=""></a><img src="/images/Hexo教程.jpg" alt=""></h4><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>一直想搭建一个完全属于自己掌控的博客小站，从搬瓦工上租了一个服务器，Godaddy上买了域名后终于可以开始博客的搭建了。这里我选择基于Nodejs的开源静态博客框架Hexo，其安装简单，文档丰富，支持MarkDown写作，配合上Git非常方便博客的保存和转移，对于我这种网页小白再适合不过了。虽然Hexo是静态博客，也同样有办法添加评论功能。下面将介绍我的配置具体步骤。</p>
+<a id="more"></a>
+<h1 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h1><p>以下是我部署过程使用的环境：</p>
+<ul>
+<li>主机： 搬瓦工VPS</li>
+<li>操作系统： Centos 7 x86_64 (10GB 512MB)</li>
+</ul>
+<h1 id="部署具体过程"><a href="#部署具体过程" class="headerlink" title="部署具体过程"></a>部署具体过程</h1><h2 id="搭建基础环境"><a href="#搭建基础环境" class="headerlink" title="搭建基础环境"></a>搭建基础环境</h2><h3 id="创建新的用户"><a href="#创建新的用户" class="headerlink" title="创建新的用户"></a>创建新的用户</h3><p>首先通过ssh登录到远程主机（一般VPS主机安装好系统后默认会打开ssh服务，并告诉对应的端口号）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ ssh root@server_ip_address -p ssh_port_number</span><br></pre></td></tr></table></figure>
+<p>添加用户并设置密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">remote# adduser your_user_id</span><br><span class="line">remote# passwd your_user_id</span><br></pre></td></tr></table></figure>
+<p>这里会弹出交互命令，输入并确认密码即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Changing password for user your_user_id.  </span><br><span class="line">New password:  </span><br><span class="line">Retype new password:  </span><br><span class="line">passwd: all authentication tokens updated successfully.</span><br></pre></td></tr></table></figure>
+<p>设置sudo权限（加入your_user_id到wheel组，CentOS默认wheel组成员拥有sudo的权限）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote# usermod -aG wheel your_user_id</span><br></pre></td></tr></table></figure>
+<p>现在就可以从root切换到your_user_id用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote# su - your_user_id</span><br></pre></td></tr></table></figure>
+<h3 id="安装Server"><a href="#安装Server" class="headerlink" title="安装Server"></a>安装Server</h3><p>这里我使用轻量级的HTTP服务器Nginx就足够了。继续之前的远程主机命令行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">remote# sudo yum install epel-release  //安装第三方Fedora源EPEL</span><br><span class="line">remote# sudo yum install nginx         //安装Nginx</span><br><span class="line">remote# sudo systemctl start nginx     //启动Nginx服务</span><br></pre></td></tr></table></figure>
+<p>至此，如果访问VPS的IP地址，出现Ngnix的默认欢迎界面，那么恭喜，基本的Server环境就搭建成功了。下面开始部署Hexo博客。</p>
+<h2 id="部署Hexo"><a href="#部署Hexo" class="headerlink" title="部署Hexo"></a>部署Hexo</h2><p>目前实现的功能包括：</p>
+<ul>
+<li>访问VPS的IP的根目录会直接跳转到Hexo博客主页</li>
+<li>Git远端管理博客框架，方便随时随地在本地同步博客环境</li>
+<li>通过“hexo generate &amp; deploy”命令一键更新博客</li>
+</ul>
+<h3 id="本地安装hexo"><a href="#本地安装hexo" class="headerlink" title="本地安装hexo"></a>本地安装hexo</h3><p>现在先回到本地命令行。<br>Hexo官方提供了清楚的英文版<a href="https://hexo.io/docs/" target="_blank" rel="noopener">安装教程</a><br>安装git(用于下载hexo在Github的源码)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ sudo yum install git-core  //如果是Ubuntu/Debian替换yum为apt-get</span><br></pre></td></tr></table></figure>
+<p>安装Node Version Manager(Node版本管理工具)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash</span><br></pre></td></tr></table></figure>
+<p>这一步后建议重启本地主机或者重新登录使得nvm命令被自动识别。<br>安装Node.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ nvm install stable</span><br></pre></td></tr></table></figure>
+<p>安装Hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<p>至此，Hexo在本地就安装完毕了，接下来新建Hexo项目，例如这里我设置项目名为MyBlog:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ hexo init MyBlog</span><br></pre></td></tr></table></figure>
+<p>新建一篇文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ hexo new your_post_title</span><br></pre></td></tr></table></figure>
+<p>这会生成your_post_title.md文件,现在便可以开始用MarkDown来直接写作了。写作配置等请直接参考Hexo官网的<a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">写作教程</a>。<br>生成静态网页</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ hexo g  //g是generate的缩写</span><br></pre></td></tr></table></figure>
+<p>输入以下命令后，便可以本地通过浏览器访问<a href="http://localhost:4000%E9%A2%84%E8%A7%88%E5%8D%9A%E5%AE%A2%E4%BA%86%E3%80%82/" target="_blank" rel="noopener">http://localhost:4000预览博客了。</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ hexo s  //s是server的缩写</span><br></pre></td></tr></table></figure>
+<p>这里我发现Hexo的一个优点是，在写作过程中，也可以直接通过刷新上述页面查看正在写作的文章效果，而不需要重新生成网页。</p>
+<h3 id="设定hexo部署"><a href="#设定hexo部署" class="headerlink" title="设定hexo部署"></a>设定hexo部署</h3><p>相比直接部署到GitHub Page上，部署到个人VPS上稍复杂。网上主要有两种办法，一种是通过rsync,另外一种是git hook。前者更简单方便，但是需要在Server端运行rsync服务。本着博客系统尽量独立于系统环境的原则，这里我选择后者。<br>本地安装hexo部署工具，直接在hexo博客文件夹根目录下运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>本地打开_config.yml文件，先设定基本的博客URL和根目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://huangtengxq.com</span><br><span class="line">root: /</span><br></pre></td></tr></table></figure>
+<p>这里有必要提一下Hexo生成博客网页的原理，当前面输入“hexo g”命令后，hexo会根据设定的主题，文章等开始创建网页内容、风格等，所有相关文件都会统一保存在public文件夹。public文件夹结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2017         	//博客文件</span><br><span class="line">archives	//博客文件</span><br><span class="line">css             //网页风格</span><br><span class="line">images        	//图片</span><br><span class="line">index.html      //索引网页</span><br><span class="line">js              //javascript</span><br><span class="line">lib             //库文件</span><br></pre></td></tr></table></figure>
+<p>index.html即为hexo博客的主页，使用css目录中的文件渲染网页。这里要注意的是该文件夹的结构根据上面_config.yml中的url和root的值会有相应的变化。如果后面发现hexo网页缺失主题渲染的话，首先要看的就是index.html中所指向的css文件夹的位置是否正确。例如目前index.html中指定的css目录应该为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link href=&quot;/css/main.css?v=5.1.2&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>设定deploy到VPS的方式和hexo生成的网页文件夹的位置。deploy的目的就是把本地生成的public文件夹的内容上传到远程VPS中指定的一个文件夹(下面设定中的repo地址)，之后只需要设定Nginx，使得通过HTTP访问VPS时直接跳转到指定的文件夹中的index.html显示即可。例如这里指定的VPS上的文件夹为/home/your_user_id/work/repo/hexo_blog.git。<br>值得注意的一点是hexo的git deploy工具是不支持配置ssh端口的(默认使用端口22)，而现在一般为了保证个人VPS安全性端口号都会设置成别的。好在在设置repo的url时可以直接指定ssh的端口号，指定方法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: ssh://your_user_id@your_vps_ip_addr:your_vps_ssh_port/home/your_user_id/work/repo/hexo_blog.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>接下来在VPS主机上的对应位置创建这个文件，然后初始化为git远端目录。注意这里hexo_blog.git应该属于your_user_id用户组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">remote# mkdir -p /home/your_user_id/work/repo/hexo_blog.git</span><br><span class="line">remote# mkdir -p /home/your_user_id/work/hexo_public                 //创建用于Hexo博客网页访问的目录</span><br><span class="line">remote# git init --bare /home/your_user_id/work/repo/hexo_blog.git   //该命令后会在目录下创建一些git有关的目录</span><br></pre></td></tr></table></figure>
+<p>配置git hook</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">remote# cd /home/your_user_id/work/repo/hexo_blog.git/hooks</span><br><span class="line">remote# touch post-receive		//新建文件post-receive</span><br></pre></td></tr></table></figure>
+<p>在post-receive中添加如下bash命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --work-tree=/home/your_user_id/work/hexo_public --git-dir=/home/your_user_id/work/repo/hexo_blog.git checkout -f</span><br></pre></td></tr></table></figure>
+<p>基本原理就是每次本地触发git deploy命令时，会主动提交public中的更新的文件到远程git仓库hexo_blog.git中，这时会触发post-receive中的命令,因此会从 /home/your_user_id/work/repo/hexo_blog.git 仓库下载默认分支到 /home/your_user_id/work/hexo_public中。这样hexo_public中就有了和本地public文件中一样的内容。主要这里有的博客里说要设置文件夹为git用户组(因此还要创建git用户名等等)，而根据我的配置，只需要保证hexo_blog.git和hexo_public都是属于your_user_id的用户组的话就能成功。这可能是因为我在前面repo中已经设置了通过your_user_id来提交的。</p>
+<h2 id="设置Nginx根目录和用户"><a href="#设置Nginx根目录和用户" class="headerlink" title="设置Nginx根目录和用户"></a>设置Nginx根目录和用户</h2><p>设置根目录指向/home/your_user_id/work/hexo_public，打开/etc/nginx/nginx.conf (建议先保存原始的文件)，这里由于hexo_public所属的用户组是 your_user_id,所以访问网页的时候会需要nginx以 your_user_id 的身份访问网页文件目录。从安全角度，这里不建议设置为 root用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">user your_user_id        				#修改用户为your_user_id,否则网页返回403 Forbidden错误</span><br><span class="line">... //忽略一部分没有更改的配置</span><br><span class="line">include /etc/nginx/conf.d/*.conf;</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80 default_server;</span><br><span class="line">    listen       [::]:80 default_server;</span><br><span class="line">    server_name  _;</span><br><span class="line">    root         /home/huangt/work/hexo_public; 	#修改这个地方的root的值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>接下来就大功告成了，试试在本地运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ hexo deploy &amp; generate</span><br></pre></td></tr></table></figure>
+<p>接下来就可以通过浏览器访问你的vps绑定的域名或者IP地址来欣赏你的博客了。</p>
+<h2 id="随时随地更新博客"><a href="#随时随地更新博客" class="headerlink" title="随时随地更新博客"></a>随时随地更新博客</h2><p>如果想在别的电脑上更新博客怎么办？可以将前面在本地建立的Hexo项目MyBlog也设置成Git项目，同时也将其上传到个人VPS的Git仓库。这样就可以随时随地快速恢复你的Hexo项目环境了。<br>具体做法如下：<br>设置Hexo项目为Git项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local$ git init your_hexo_blog_location       //如果是安装本文设定的话 就是MyBlog文件夹的位置</span><br></pre></td></tr></table></figure>
+<p>远端VPS上建立Git仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote# git init --bare /home/your_user_id/work/repo/MyBlog.git     //示例</span><br></pre></td></tr></table></figure>
+<p>本地设置git remote的目录指向上面VPS的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local$ git remote add origin ssh://your_user_id@45.78.56.111:27350/home/your_user_id/work/repo/MyBlog.git   //示例</span><br><span class="line">local$ git remote -v 	//检查远程仓库是否正确添加</span><br></pre></td></tr></table></figure>
+<p>提交本地Hexo项目并上传到远程Git仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local$ git commit -m &quot;set_your_message_here&quot;</span><br><span class="line">local$ git push origin master</span><br></pre></td></tr></table></figure>
+<p>之后如果想要在别的电脑下载之前的MyBlog，只需要从远端仓库下载下来即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local2$ git clone ssh://your_user_id@45.78.56.111:27350/home/your_user_id/work/repo/MyBlog.git</span><br></pre></td></tr></table></figure>
+<p>以后的修改或者写新的博客记得同时在本地提交以及远程push：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local2$(MyBlog) git pull .								//如果之前在别的电脑修改过则先从远程同步一下</span><br><span class="line">local2$(MyBlog) git commit -m &quot;set_your_message_here&quot; 	//本地提交</span><br><span class="line">local2$(MyBlog) git push .								//远程提交</span><br></pre></td></tr></table></figure>
+<p>Git仓库有一点需要注意，如果MyBlog下面有从别的Git项目(例如你在themes/文件夹git clone了别的主题包，例如NextT主题),则建议在下次提交的时候不要提交这个Git项目到MyBlog项目，这样会导致混乱。(因此在新的本地环境下载MyBlog项目后需要重新git clone对应的Git子项目)。解决这个问题的一个办法是用repo工具来管理有不同Git子目录的文件夹。这里有兴趣的可以尝试一下。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里就基本完成了，希望对大家有所帮助。之后可以做的有意思的事情还有很多，例如添加博客评论功能、网站分析、留言等，我会在测试后继续更新。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ask 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ask 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vps部署hexo博客/" rel="tag"># vps部署hexo博客</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/十分钟了解HTTPS/" rel="next" title="十分钟了解HTTPS">
+                <i class="fa fa-chevron-left"></i> 十分钟了解HTTPS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/07/为博客添加-Let-s-Encrypt-免费证书/" rel="prev" title="为博客添加 Let's Encrypt 免费证书">
+                为博客添加 Let's Encrypt 免费证书 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ask</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number"></span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置环境"><span class="nav-number"></span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署具体过程"><span class="nav-number"></span> <span class="nav-text">部署具体过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建基础环境"><span class="nav-number"></span> <span class="nav-text">搭建基础环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建新的用户"><span class="nav-number"></span> <span class="nav-text">创建新的用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Server"><span class="nav-number"></span> <span class="nav-text">安装Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署Hexo"><span class="nav-number"></span> <span class="nav-text">部署Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地安装hexo"><span class="nav-number"></span> <span class="nav-text">本地安装hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设定hexo部署"><span class="nav-number"></span> <span class="nav-text">设定hexo部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置Nginx根目录和用户"><span class="nav-number"></span> <span class="nav-text">设置Nginx根目录和用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number"></span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随时随地更新博客"><span class="nav-number"></span> <span class="nav-text">随时随地更新博客</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="/js/src/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ask</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+<!--</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共10k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="git使用,git部署," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Git是目前最流行的版本管理系统，学会Git几乎成了开发者的必备技能。 Git有很多优势，其中之一就是远程操作非常简便。本文详细介绍5个Git命令，它们的概念和用法，理解了这些内容，你就会完全掌握Git远程操作。">
+<meta name="keywords" content="git使用,git部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/git学习笔记/index.html">
+<meta property="og:site_name" content="云麦笔记">
+<meta property="og:description" content="Git是目前最流行的版本管理系统，学会Git几乎成了开发者的必备技能。 Git有很多优势，其中之一就是远程操作非常简便。本文详细介绍5个Git命令，它们的概念和用法，理解了这些内容，你就会完全掌握Git远程操作。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-06T07:52:28.764Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git学习笔记">
+<meta name="twitter:description" content="Git是目前最流行的版本管理系统，学会Git几乎成了开发者的必备技能。 Git有很多优势，其中之一就是远程操作非常简便。本文详细介绍5个Git命令，它们的概念和用法，理解了这些内容，你就会完全掌握Git远程操作。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/git学习笔记/"/>
+
+
+
+
+
+  <title>git学习笔记 | 云麦笔记</title>
+  
+
+
+
+
+
+
+
+
+  </head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云麦笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/git学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ask">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云麦笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">git学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T15:47:42+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://zh.wikipedia.org/wiki/Git" target="_blank" rel="noopener">Git</a>是目前最流行的<strong>版本管理系统</strong>，学会Git几乎成了开发者的必备技能。</p>
+<p>Git有很多优势，其中之一就是远程操作非常简便。本文详细介绍5个Git命令，它们的概念和用法，理解了这些内容，你就会完全掌握Git远程操作。</p>
+<a id="more"></a>
+<h1 id="git学习笔记（二）"><a href="#git学习笔记（二）" class="headerlink" title="git学习笔记（二）"></a>git学习笔记（二）</h1><p> 发表于 2016-01-15 |  分类于 <a href="https://wuzhaohui026.github.io/categories/Git/" target="_blank" rel="noopener">Git</a></p>
+<p>这是一个系列的文章的第二篇，用来记录自己git的学习<br>参考<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰的官方网站</a>.</p>
+<h3 id="1-添加远程仓库"><a href="#1-添加远程仓库" class="headerlink" title="1.添加远程仓库"></a>1.添加远程仓库</h3><p>首先在github上创建一个新的仓库，Repository name填入你工作区的名字，其他默认。<br>然后，在本地的仓库下运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add orgin &quot;新建仓库的SSH&quot;  \\orgin是远程库的名字，一定要确保自己的电脑上有SSH Key。</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374385852170d9c7adf13c30429b9660d0eb689dd43a000" target="_blank" rel="noopener">如何添加SSH Key</a><br>接着把本地库的所有内容推送到远程库上:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u orgin master   \\用git push命令，实际上是把当前分支master推送到远程。</span><br></pre></td></tr></table></figure>
+<p>从现在起，只要本地作了提交，就可以通过命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+<p>把本地master分支的最新修改推送至GitHub.</p>
+<h3 id="2-从远程库克隆"><a href="#2-从远程库克隆" class="headerlink" title="2.从远程库克隆"></a>2.从远程库克隆</h3><p>首先，登陆GitHub，创建一个新的仓库。<br>勾选 <strong>Initialize this repository with a README</strong>，GitHub会自动创建一个 <strong>README.md</strong> 文件。<br>接着克隆一个本地库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone &quot;SSH地址&quot;</span><br></pre></td></tr></table></figure>
+<p>接着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd gitskills</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure>
+<p>然后进入gitskills目录看看，已经有README.md文件了。</p>
+<h3 id="3-创建与合并分支"><a href="#3-创建与合并分支" class="headerlink" title="3.创建与合并分支"></a>3.创建与合并分支</h3><p>首先，我们创建分支，然后切换到创建的分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b &lt;分支name&gt;   \\-b参数表示创建并切换，相当于以下两条命令：</span><br><span class="line">$ git branch &lt;分支name&gt;</span><br><span class="line">$ git checkout &lt;分支name&gt;</span><br></pre></td></tr></table></figure>
+<p>然后，用 <strong>git branch</strong> 命令查看当前分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch  \\git branch命令会列出所有分支，当前分支前面会标一个*号。</span><br></pre></td></tr></table></figure>
+<p>然后在创建的分支上正常提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add readme.txt </span><br><span class="line">$ git commit -m &quot;branch test&quot;</span><br></pre></td></tr></table></figure>
+<p>切换回 <strong>master</strong> 分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout master</span><br></pre></td></tr></table></figure>
+<p>把创建的分支的工作成果合并到master分支上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge &lt;分支name&gt; \\git merge命令用于合并指定分支到当前分支。</span><br></pre></td></tr></table></figure>
+<p>删除创建的分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -d &lt;分支name&gt;</span><br></pre></td></tr></table></figure>
+<p>删除后，查看 <strong>branch</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
+<p><em>注意</em>:当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。<br>用 <strong>git log –graph</strong> 命令可以看到分支合并图。</p>
+<h3 id="4-–no-ff-参数，表示禁用-Fast-forward："><a href="#4-–no-ff-参数，表示禁用-Fast-forward：" class="headerlink" title="4.–no-ff 参数，表示禁用 Fast forward："></a>4.<strong>–no-ff</strong> 参数，表示禁用 <strong>Fast forward</strong>：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge --no-ff -m &quot;merge with no-ff&quot; &lt;分支name&gt;   \\加上-m参数，把commit描述写进去</span><br></pre></td></tr></table></figure>
+<p><em>合并分支时，加上 **–no-ff<strong> 参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而 </strong>fast forward** 合并就看不出来曾经做过合并。</em></p>
+<h3 id="5-Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作："><a href="#5-Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：" class="headerlink" title="5.Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作："></a>5.Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git stash</span><br></pre></td></tr></table></figure>
+<p>用 <strong>git stash list</strong> 查看stash内容。<br>恢复有两个办法：<br>一是用 <strong>git stash apply</strong> 恢复，但是恢复后，stash内容并不删除，你需要用 <strong>git stash drop</strong> 来删除；<br>另一种方式是用 <strong>git stash pop</strong>，恢复的同时把stash内容也删了。</p>
+<h3 id="6-多人协作："><a href="#6-多人协作：" class="headerlink" title="6.多人协作："></a>6.多人协作：</h3><ul>
+<li>查看远程库信息，使用 <strong>git remote -v</strong>；</li>
+<li>本地新建的分支如果不推送到远程，对其他人就是不可见的；</li>
+<li>从本地推送分支，使用 <strong>git push origin branch-name</strong>，如果推送失败，先用 <strong>git pull</strong>抓取远程的新提交；</li>
+<li>在本地创建和远程分支对应的分支，使用 <strong>git checkout -b branch-name origin/branch-name</strong>，本地和远程分支的名称最好一致；</li>
+<li>建立本地分支和远程分支的关联，使用 <strong>git branch –set-upstream branch-name origin/branch-name</strong>；</li>
+<li>从远程抓取分支，使用 <strong>git pull</strong>，如果有冲突，要先处理冲突。</li>
+</ul>
+<h3 id="7-创建标签："><a href="#7-创建标签：" class="headerlink" title="7.创建标签："></a>7.创建标签：</h3><ul>
+<li>命令 <strong>git tag</strong> 用于新建一个标签，默认为HEAD，也可以指定一个commit id；</li>
+<li><strong>git tag -a -m “blablabla…”</strong> 可以指定标签信息；</li>
+<li><strong>git tag -s -m “blablabla…”</strong> 可以用PGP签名标签；</li>
+<li>命令 <strong>git tag</strong> 可以查看所有标签。</li>
+</ul>
+<h3 id="8-操作标签："><a href="#8-操作标签：" class="headerlink" title="8.操作标签："></a>8.操作标签：</h3><ul>
+<li>命令 <strong>git push origin</strong> 可以推送一个本地标签；</li>
+<li>命令 <strong>git push origin –tags</strong>可以推送全部未推送过的本地标签；</li>
+<li>命令 <strong>git tag -d</strong> 可以删除一个本地标签；</li>
+<li>命令 <strong>git push origin :refs/tags/</strong> 可以删除一个远程标签。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ask 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ask 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git使用/" rel="tag"># git使用</a>
+          
+            <a href="/tags/git部署/" rel="tag"># git部署</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/利用-SSH-隧道或-SS-来实现内网穿透/" rel="next" title="利用 SSH 隧道或 SS 来实现内网穿透">
+                <i class="fa fa-chevron-left"></i> 利用 SSH 隧道或 SS 来实现内网穿透
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/06/为hexo-next-添加打赏功能/" rel="prev" title="为hexo next 添加打赏功能">
+                为hexo next 添加打赏功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ask</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#git学习笔记（二）"><span class="nav-number">1.</span> <span class="nav-text">git学习笔记（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-添加远程仓库"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.添加远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-从远程库克隆"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.从远程库克隆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-创建与合并分支"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.创建与合并分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-–no-ff-参数，表示禁用-Fast-forward："><span class="nav-number">1.0.4.</span> <span class="nav-text">4.–no-ff 参数，表示禁用 Fast forward：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作："><span class="nav-number">1.0.5.</span> <span class="nav-text">5.Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-多人协作："><span class="nav-number">1.0.6.</span> <span class="nav-text">6.多人协作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-创建标签："><span class="nav-number">1.0.7.</span> <span class="nav-text">7.创建标签：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-操作标签："><span class="nav-number">1.0.8.</span> <span class="nav-text">8.操作标签：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="/js/src/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ask</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+<!--</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共10k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

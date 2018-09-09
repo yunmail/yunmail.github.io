@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="https,https部署," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="只要十分钟，十分钟你看了不吃亏，十分钟你看了不上当，十分钟就可以让你对HTTPS的话题对酒当歌侃侃而谈，来吧备上花生瓜子八宝粥让我们荡起双桨 走起~ 阅读本文需要您对HTTP有基本了解，读完大概需要十分钟左右。">
+<meta name="keywords" content="https,https部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十分钟了解HTTPS">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/十分钟了解HTTPS/index.html">
+<meta property="og:site_name" content="云麦笔记">
+<meta property="og:description" content="只要十分钟，十分钟你看了不吃亏，十分钟你看了不上当，十分钟就可以让你对HTTPS的话题对酒当歌侃侃而谈，来吧备上花生瓜子八宝粥让我们荡起双桨 走起~ 阅读本文需要您对HTTP有基本了解，读完大概需要十分钟左右。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-06T13:32:42.302Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="十分钟了解HTTPS">
+<meta name="twitter:description" content="只要十分钟，十分钟你看了不吃亏，十分钟你看了不上当，十分钟就可以让你对HTTPS的话题对酒当歌侃侃而谈，来吧备上花生瓜子八宝粥让我们荡起双桨 走起~ 阅读本文需要您对HTTP有基本了解，读完大概需要十分钟左右。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/十分钟了解HTTPS/"/>
+
+
+
+
+
+  <title>十分钟了解HTTPS | 云麦笔记</title>
+  
+
+
+
+
+
+
+
+
+  </head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云麦笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/十分钟了解HTTPS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ask">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云麦笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">十分钟了解HTTPS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T21:28:22+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>只要十分钟，十分钟你看了不吃亏，十分钟你看了不上当，十分钟就可以让你对HTTPS的话题对酒当歌侃侃而谈，来吧备上花生瓜子八宝粥让我们<del>荡起双桨</del> 走起~</p>
+<p>阅读本文需要您对HTTP有基本了解，读完大概需要十分钟左右。</p>
+<a id="more"></a>
+<h2 id="一、为什么要用HTTPS——HTTP协议的缺陷"><a href="#一、为什么要用HTTPS——HTTP协议的缺陷" class="headerlink" title="一、为什么要用HTTPS——HTTP协议的缺陷"></a>一、为什么要用HTTPS——HTTP协议的缺陷</h2><ol>
+<li><p>通信使用明文（不加密），内容可能会被窃听</p>
+</li>
+<li><p>不能验证通信方的身份，所以请求和响应都有可能是攻击者发送的</p>
+<p>数据包在由A到B的过程中，可能经历很多次路由转发，这个过程中数据包可能会被劫持和替换，A和B都无法确定收到的信息是否就是对方发送的。</p>
+</li>
+<li><p>无法证明报文的完整性，可能是经过篡改的信息。</p>
+<p>同样是在A到B传输过程中，数据包被劫持、篡改之后继续传输，虽然接收方收到的数据包就是发送方发送的那个，但是内容已经遭到篡改，这样无法保证报文的完整性。</p>
+</li>
+</ol>
+<h2 id="二、HTTPS是怎么克服这些缺陷的？"><a href="#二、HTTPS是怎么克服这些缺陷的？" class="headerlink" title="二、HTTPS是怎么克服这些缺陷的？"></a>二、HTTPS是怎么克服这些缺陷的？</h2><h3 id="2-1-HTTPS是什么？"><a href="#2-1-HTTPS是什么？" class="headerlink" title="2.1 HTTPS是什么？"></a>2.1 HTTPS是什么？</h3><p><strong>HTTPS：</strong>在HTTP通信时增加一层TLS通信，以前是HTTP直接和TCP通信，现在HTTP先与TLS通信，再由TLS和TCP进行通信。HTTPS拥有加密、证书校验身份、准确性校验这些功能，避免了HTTP的三个缺陷。</p>
+<p><a href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="noopener">TLS的前身是SSL</a>，TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。</p>
+<p>HTTP建立通信时，只需要进行TCP三次握手就可以开始传输数据了，而HTTPS在建立通信时，先进行TCP三次握手，再进行TLS握手，然后开始发送数据。</p>
+<h3 id="2-2-HTTPS的加密功能"><a href="#2-2-HTTPS的加密功能" class="headerlink" title="2.2 HTTPS的加密功能"></a>2.2 HTTPS的加密功能</h3><p><strong>加密技术分为：</strong></p>
+<ol>
+<li><p>共享密钥加密，也叫对称密钥加密，只有一把密钥，通信方必须先将密钥发送给接收方，然后接收方使用密钥对密文解密，但是密钥发送的过程很难保证安全，一旦密钥被窃取，就不能保证加密的安全了。</p>
+</li>
+<li><p>公开密钥加密，即非对称密钥加密，有两把密钥，公钥public key 和私钥private key</p>
+<p>公钥是公开的，可以随意发布，任何人都可以获得。A使用B发布的公钥加密报文，B接收后使用自己的私钥进行解密，这样私钥不需要传输，也就不必担心被窃取的风险。</p>
+</li>
+</ol>
+<p>对称加密处理速度要比非对称加密要快，所以在保证安全的基础上，应多使用对称加密方式。<strong>TLS采用非对称加密的加密方式</strong>，<strong>HTTPS采用混合加密机制：</strong>大部分通信使用对称密钥加密，但首次交换共享密钥时是使用非对称加密的方式，这样就既保证了安全，又速度最快。</p>
+<h3 id="2-3-HTTPS的身份认证功能"><a href="#2-3-HTTPS的身份认证功能" class="headerlink" title="2.3 HTTPS的身份认证功能"></a>2.3 HTTPS的身份认证功能</h3><p>按照上文介绍的非对称加密方式，会有一个安全缺陷：客户端怎么知道拿到的公钥是否就是服务端发放的公钥呢，因为在拿到的过程中，公钥有可能被掉包。于是为了避免这个缺陷，引入了证书的概念。</p>
+<p><strong>公钥证书</strong></p>
+<p>为了保证公钥是目标服务器发行的公钥，需要使用权威第三方机构（以下称为CA机构）颁发的<strong>公钥证书</strong>：</p>
+<ul>
+<li>服务器去CA机构申请证书，机构颁发加数字签名的公钥证书，数字签名可以使用CA机构的公钥来验证；</li>
+<li>服务器把公钥证书以公开密钥加密方式传给客户端；</li>
+<li>浏览器内会植入常用CA机构的公钥；</li>
+<li>客户端从浏览器拿到CA机构的公钥，并用它验证收到的公钥证书的数字签名，验证通过，证明服务器的公钥值得信任，客户端就从公钥证书取出公钥。</li>
+</ul>
+<p>总结一下就是服务器传递的公钥上有CA的签名，客户端通过验证签名证实服务器的身份，并安全地得到公钥。</p>
+<p>HTTPS首次交换共享密钥使用的是非对称加密方式，这种加密方式会使用公钥证书来验证服务端的身份。而想要验证客户端的身份就不是那么容易了，需要用户去申请证书，而且权威机构的证书是要花钱的，所以客户端身份验证充满挑战。现状是，仅有特殊用途的业务实现了客户端证书，比如那些可支撑客户端证书支出费用的业务，例如银行网银就采用了客户端证书。</p>
+<h3 id="2-4-HTTPS的完整性校验功能"><a href="#2-4-HTTPS的完整性校验功能" class="headerlink" title="2.4 HTTPS的完整性校验功能"></a>2.4 HTTPS的完整性校验功能</h3><p>在HTTPS的通信流程中，应用层发送数据时，会附加一种叫做MAC的报文摘要，MAC能够查知报文是否遭到篡改，从而保护报文的完整性。</p>
+<h2 id="三、HTTPS建立通信的过程简介"><a href="#三、HTTPS建立通信的过程简介" class="headerlink" title="三、HTTPS建立通信的过程简介"></a>三、HTTPS建立通信的过程简介</h2><p>HTTPS首次建立通信时，假设C是客户端client，S是服务器端server，以SSL为例：</p>
+<ol>
+<li><p>C/S会先进行TCP三次握手；</p>
+</li>
+<li><p>然后C发送Client Hello报文及其他SSL信息，表示开始SSL通信过程；</p>
+</li>
+<li><p>S收到后回以Server Hello及其他SSL信息，此外S还发送<strong>公钥证书</strong>，随后发送Server Hello Done通知Client SSL握手协商部分结束</p>
+<p><strong>即SSL第一次握手结束，这个过程最重要的是S把公钥证书交给了C；</strong></p>
+</li>
+<li><p>C验证公钥证书有效性，然后取出公钥，然后：</p>
+<ul>
+<li>回以Client Key Exchange报文，报文中包含通过<strong>公钥加密过的Pre-master-secret</strong>是一个随机密码串。</li>
+<li>C接着发送Change Cipher Spec报文，告诉S此报文后的通信会用Pre-master-secret进行加密。</li>
+<li>C发送Finished报文，并包含上述全部报文的整体校验值。这次握手协商能否成功，要看S是否正确解密该报文。</li>
+</ul>
+</li>
+<li><p>S收到加密过的pre-master secret，用自己的私钥得到pre-master secret，然后：</p>
+<ul>
+<li>发送Change Cipher Spec报文</li>
+<li>S发送Finished报文。</li>
+</ul>
+</li>
+<li><p>C/S使用pre-master secret经过一系列步骤生成master secret，使用master secret生成对称密钥session key，之后传输的收据均使用session key加密解密。</p>
+</li>
+</ol>
+<p>至此，<strong>SSL连接建立完成，这个过程最重要的是C把Pre-master-secret用上一步传递的公钥加密后传给S</strong>。之后开始进行HTTP通信，并用共享密钥对通信进行对称加密。</p>
+<h2 id="四、HTTPS的问题"><a href="#四、HTTPS的问题" class="headerlink" title="四、HTTPS的问题"></a>四、<strong>HTTPS的问题</strong></h2><p>当使用SSL时，它的处理速度变慢：</p>
+<ol>
+<li>通信速度变慢，因为除了HTTP请求和响应，还要进行SSL通信，通信量会增加</li>
+<li>因为C/S端都要加密解密，更耗计算资源，SSL加速器可以改善S端问题</li>
+</ol>
+<p>建议的是如果非敏感信息使用HTTP通信，只有在包含个人信息等敏感数据时，才利用HTTPS进行通信。特别是访问量较多的网站在加密处理时，会承担较大的负载，可以仅在需要信息隐藏时才加密，以节约资源。但是查看淘宝、京东都是所有请求都采用的HTTPS，也有搜索到一些讲部分页面采用HTTP，部分页面采用HTTPS的部署方法的博文，因为现在我对部署这一块的东西还比较生疏，所以后续有时间再关注。</p>
+<p><strong>默认端口</strong></p>
+<ol>
+<li>HTTP默认端口80</li>
+<li>HTTPS默认端口443</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ask 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ask 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/https/" rel="tag"># https</a>
+          
+            <a href="/tags/https部署/" rel="tag"># https部署</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/使用Hexo踩坑小记-md/" rel="next" title="使用Hexo踩坑小记.md">
+                <i class="fa fa-chevron-left"></i> 使用Hexo踩坑小记.md
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/07/部署Hexo到个人服务器/" rel="prev" title="部署Hexo到个人服务器">
+                部署Hexo到个人服务器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ask</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、为什么要用HTTPS——HTTP协议的缺陷"><span class="nav-number">1.</span> <span class="nav-text">一、为什么要用HTTPS——HTTP协议的缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、HTTPS是怎么克服这些缺陷的？"><span class="nav-number">2.</span> <span class="nav-text">二、HTTPS是怎么克服这些缺陷的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-HTTPS是什么？"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 HTTPS是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-HTTPS的加密功能"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 HTTPS的加密功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-HTTPS的身份认证功能"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 HTTPS的身份认证功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-HTTPS的完整性校验功能"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 HTTPS的完整性校验功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、HTTPS建立通信的过程简介"><span class="nav-number">3.</span> <span class="nav-text">三、HTTPS建立通信的过程简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、HTTPS的问题"><span class="nav-number">4.</span> <span class="nav-text">四、HTTPS的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="/js/src/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ask</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+<!--</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共10k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
