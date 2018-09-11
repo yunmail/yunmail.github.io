@@ -4,6 +4,30 @@
 
     
   <url>
+    <loc>http://yoursite.com/2018/09/11/Nginx%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0(%E4%B8%80)/</loc>
+    <lastmod>2018-09-11T03:05:55.045Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx配置相关笔记</title>
+        <pubTime>2018-09-11T03:01:30.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+        <tag>https部署</tag>
+         
+        <tag>301跳转</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://yoursite.com/categories/linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/09/07/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0-Let-s-Encrypt-%E5%85%8D%E8%B4%B9%E8%AF%81%E4%B9%A6/</loc>
     <lastmod>2018-09-07T08:04:21.000Z</lastmod>
     <data>
@@ -55,9 +79,9 @@
         <title>十分钟了解HTTPS</title>
         <pubTime>2018-09-06T13:28:22.000Z</pubTime>
         
-        <tag>https</tag>
-         
         <tag>https部署</tag>
+         
+        <tag>https</tag>
          
          
            
