@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="seafile备份,seafile增量设置," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="####   Seafile 是一个开源的文件云存储平台，解决文件集中存储、同步、多平台访问的问题，注重安全和性能。 Seafile 通过“资料库”来分类管理文件，每个资料库可单独同步，用户可加密资料库， 且密码不会保存在服务器端，所以即使是服务器管理员也无权访问你的文件。 Seafile 允许用户创建“群组”，在群组内共享和同步文件，方便了团队协同工作。">
+<meta name="keywords" content="seafile备份,seafile增量设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Seafile 实时备份服务器">
+<meta property="og:url" content="http://yoursite.com/2018/09/11/Seafile-实时备份服务器/index.html">
+<meta property="og:site_name" content="云麦笔记">
+<meta property="og:description" content="####   Seafile 是一个开源的文件云存储平台，解决文件集中存储、同步、多平台访问的问题，注重安全和性能。 Seafile 通过“资料库”来分类管理文件，每个资料库可单独同步，用户可加密资料库， 且密码不会保存在服务器端，所以即使是服务器管理员也无权访问你的文件。 Seafile 允许用户创建“群组”，在群组内共享和同步文件，方便了团队协同工作。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/seafile.jpg">
+<meta property="og:updated_time" content="2018-09-11T07:34:29.549Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Seafile 实时备份服务器">
+<meta name="twitter:description" content="####   Seafile 是一个开源的文件云存储平台，解决文件集中存储、同步、多平台访问的问题，注重安全和性能。 Seafile 通过“资料库”来分类管理文件，每个资料库可单独同步，用户可加密资料库， 且密码不会保存在服务器端，所以即使是服务器管理员也无权访问你的文件。 Seafile 允许用户创建“群组”，在群组内共享和同步文件，方便了团队协同工作。">
+<meta name="twitter:image" content="http://yoursite.com/images/seafile.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/11/Seafile-实时备份服务器/"/>
+
+
+
+
+
+  <title>Seafile 实时备份服务器 | 云麦笔记</title>
+  
+
+
+
+
+
+
+
+
+  </head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云麦笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/Seafile-实时备份服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ask">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云麦笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Seafile 实时备份服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T15:28:52+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/seafile/" itemprop="url" rel="index">
+                    <span itemprop="name">seafile</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#### </p>
+<p><img src="/images/seafile.jpg" alt=""></p>
+<p>Seafile 是一个开源的文件云存储平台，解决文件集中存储、同步、多平台访问的问题，注重安全和性能。</p>
+<p>Seafile 通过“资料库”来分类管理文件，每个资料库可单独同步，用户可加密资料库， 且密码不会保存在服务器端，所以即使是服务器管理员也无权访问你的文件。</p>
+<p>Seafile 允许用户创建“群组”，在群组内共享和同步文件，方便了团队协同工作。</p>
+<a id="more"></a>
+<h1 id="Seafile-实时备份服务器"><a href="#Seafile-实时备份服务器" class="headerlink" title="Seafile 实时备份服务器"></a>Seafile 实时备份服务器</h1><p>备份是从主服务器(正在运行生产服务)将数据复制到备份服务器的过程。</p>
+<p>备份是保证数据安全的重要步骤。在<a href="https://manual-cn.seafile.com/maintain/backup_recovery.html" target="_blank" rel="noopener">备份文档</a>中表述的备份步骤有以下几点不足：</p>
+<ul>
+<li>备份是在固定的“备份周期”(每天一次或每天几次)中完成的。如果主服务器存储被损坏，则在两个备份周期之间写入的最新数据将丢失。</li>
+<li>备份过程会备份数据库和数据目录。在备份服务器中，数据库中的一些条目可能与数据目录不一致。这导致一些库在恢复后被“损坏”。</li>
+</ul>
+<p>实时备份服务器使用与 Seafile 同步客户端类似的同步算法从主服务器检索数据。它的工作原理如下：</p>
+<ul>
+<li>每当更新一个资料库时，主服务器都会通知备份服务器检索已更改的数据。使用增量同步算法，该过程快速运行并几乎实时地更新备份服务器。</li>
+<li>备份服务器还会在一个固定的时间段主动检查主服务器上的所有资料库。任何新的或更新的库都将同步到备份服务器。这将修复由于之前的实时同步过程中出现的故障引起的任何遗漏的更新数据。</li>
+<li>备份服务器始终保持数据库和数据目录的一致性。因此，备份服务器上的任何库都不会处于损坏状态(除非主服务器上的库已经损坏)。</li>
+<li>所有资料库的全部历史将被备份。这与桌面客户端不一样，它只与资料库的最新状态同步。</li>
+</ul>
+<p>有两组数据需要备份:</p>
+<ul>
+<li>Seafile 数据目录和 Seafile 数据库中的资料库核心元数据表。这些数据是 Seafile 中资料库的核心数据结构。它们通过 Seafile 的同步算法同步到备份服务器。在此过程中，元数据表与 Seafile 数据目录保持一致。</li>
+<li>通过 mysqldump 备份数据库中的其他所有数据(包括 seafile，ccnet 和 seahub 数据)。但是 mysqldump 不能达到实时备份的效果，您可以通过设置 crontab 任务来周期性自动备份数据库。这些表的延迟备份不会影响 Seafile 资料库数据的完整性。</li>
+</ul>
+<h2 id="配置实时备份服务器"><a href="#配置实时备份服务器" class="headerlink" title="配置实时备份服务器"></a>配置实时备份服务器</h2><p>我们假设您已经有一整套的 Seafile 主服务器在运行，而现在您想要配置一套备份服务器。</p>
+<p>配置备份服务器有以下几个步骤：</p>
+<ol>
+<li>在备份服务器上安装 Seafile 程序。</li>
+<li>在主服务器和备份服务器之间配置 Seafile 同步。</li>
+<li>通过 <code>mysqldump</code> 周期性的备份数据库中的数据。</li>
+</ol>
+<h3 id="在备份服务器上安装-Seafile"><a href="#在备份服务器上安装-Seafile" class="headerlink" title="在备份服务器上安装 Seafile"></a>在备份服务器上安装 Seafile</h3><p>您可以按照这个<a href="https://manual-cn.seafile.com/deploy_pro/download_and_setup_seafile_professional_server.html" target="_blank" rel="noopener">文档</a>在备份服务器上安装 Seafile。由于实时同步功能只有在 5.1.0 及其以上版本中可用，所以您必须将主服务器上的 Seafile 版本更新到 5.1.0 以上。</p>
+<p>当在备份服务器上安装 Seafile 时需要注意：</p>
+<ul>
+<li>数据库名称(ccnet，seafile 和 seahub 数据库)应该和主服务器上的相同。</li>
+<li>您无需在备份服务器上开启专业版功能，例如 Office 文档预览，全文检索和文件编辑等功能。</li>
+<li>您不能在主服务器上启动 Seahub 进程，这意味着通常情况下备份服务器不能对外提供服务。</li>
+</ul>
+<h3 id="配置-Seafile-实时同步"><a href="#配置-Seafile-实时同步" class="headerlink" title="配置 Seafile 实时同步"></a>配置 Seafile 实时同步</h3><p>在主服务器上，添加以下配置到 <code>seafile.conf</code> 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[backup]</span><br><span class="line">backup_url = http://backup-server</span><br><span class="line">sync_token = c7a78c0210c2470e14a20a8244562ab8ad509734</span><br></pre></td></tr></table></figure>
+<p>在备份服务器上，添加以下配置到 <code>seafile.conf</code> 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[backup]</span><br><span class="line">primary_url = http://primary-server</span><br><span class="line">sync_token = c7a78c0210c2470e14a20a8244562ab8ad509734</span><br><span class="line">sync_poll_interval = 3</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>backup_url</code>：备份服务器的访问地址，您可以使用http或https协议；</li>
+<li><code>primary_url</code>：主服务器的访问地址。</li>
+<li><code>sync_token</code>：主服务器和备份服务器之间共享的一个密钥，它是由系统管理员生成的40个字符的 SHA1。您可以使用 <code>uuidgen | openssl sha1</code> 命令生成一个随机密钥。</li>
+<li><code>sync_poll_interval</code>：备份服务器定期轮询主服务器的所有资料库。您可以以小时为单位设置轮询间隔。默认的间隔是1小时，这意味着备份服务器将每小时轮询一次主服务器。如果您有大量的资料库，您应该选择较大的轮询间隔。</li>
+</ul>
+<p>如果您使用https在主服务器和备份服务器之间同步，您必须为您的系统使用正确的 Seafile server 包。如果您使用的是 CentOS，您应该使用没有 “Ubuntu” 后缀的 Seafile 包;如果您使用的是 Debian 或 Ubuntu，您应该使用带有 “Ubuntu” 后缀的 Seafile 包。否则，您可能会在https请求中遇到CA错误。</p>
+<p>保存配置后，在主服务器和备份服务器上重新启动 Seafile 服务。备份服务器将在重新启动时自动启动备份进程。</p>
+<p><strong>注意</strong>：不要在备份服务器上启动 Seahub 进程。</p>
+<h3 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h3><p>使用 <code>mysqldump</code> 备份服务器的 MySQL 数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u &lt;user&gt; -p&lt;password&gt; --databases \</span><br><span class="line">--ignore-table=&lt;seafile_db&gt;.Repo \</span><br><span class="line">--ignore-table=&lt;seafile_db&gt;.Branch \</span><br><span class="line">--ignore-table=&lt;seafile_db&gt;.RepoHead \</span><br><span class="line">&lt;seafile_db&gt; &lt;ccnet_db&gt; &lt;seahub_db&gt; &gt; dbdump.sql</span><br></pre></td></tr></table></figure>
+<p>您应该将 <code>&lt;user&gt;</code>， <code>&lt;password&gt;</code> 替换为您的 MySQL 用户和密码，将 <code>&lt;seafile_db&gt;</code>， <code>&lt;seahub_db&gt;</code> 和 <code>&lt;ccnet_db&gt;</code> 替换为您的 MySQL 中的数据库名。</p>
+<p>这三个被忽略的表是与资料库核心数据相关的表，并由 Seafile 备份服务器实时同步。它们保存在备份服务器的seafile数据库中，并与mysqldump进程分开。</p>
+<p><strong>您应该设置 crontab 周期性自动运行 mysqldump 进程。</strong></p>
+<p>如果希望以更实时的方式备份数据库表(除了使用Seafile同步的3个表)，可以将MySQL/MariaDB数据库主从复制的从主节点部署到另一个数据库服务器上。<strong>在 Seafile 备份服务器上运行的数据库不能用作此复制的目标。</strong>否则将导致复制冲突，因为备份服务器上的db也将通过 Seafile 备份进程进行更新。</p>
+<h3 id="检查备份状态"><a href="#检查备份状态" class="headerlink" title="检查备份状态"></a>检查备份状态</h3><p>在上面的设置之后，您现在应该拥有以下备份数据的布局：</p>
+<ul>
+<li>资料库数据由 Seafile 备份服务器备份和管理。根据备份服务器的设置，数据可以存储在外部存储、对象存储或本地磁盘上。</li>
+<li>数据库表分为两部分:<ul>
+<li>3个核心数据库表实时备份到备份节点的MySQL数据库。</li>
+<li>其他表通常被转储到带有 mysqldump 的文件中。备份文件存储在主服务器之外的其他地方。</li>
+</ul>
+</li>
+</ul>
+<p><code>seaf-backup-cmd.sh</code> 提供 <code>status</code> 命令来查看备份状态。输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># ./seaf-backup-cmd.sh status</span><br><span class="line">Total number of libraries: xxx</span><br><span class="line">Number of synchronized libraries: xxx</span><br><span class="line">Number of libraries waiting for sync: xxx</span><br><span class="line">Number of libraries syncing: xxx</span><br><span class="line">Number of libraries failed to sync: xxx</span><br><span class="line"></span><br><span class="line">List of syncing libraries:</span><br><span class="line">xxx</span><br><span class="line">xxx</span><br><span class="line"></span><br><span class="line">List of libraries failed to sync:</span><br><span class="line">xxx</span><br><span class="line">xxx</span><br></pre></td></tr></table></figure>
+<p>有几个原因可能导致库备份失败:</p>
+<ul>
+<li>主服务器中的一些数据被损坏。这些数据可能处于最新状态或历史中。由于备份过程同步整个历史，历史中的损坏将导致备份失败。</li>
+<li>主服务器运行了 <code>seaf-fsck</code>，它可以将库恢复到旧状态。</li>
+</ul>
+<h2 id="在备份服务器上恢复数据"><a href="#在备份服务器上恢复数据" class="headerlink" title="在备份服务器上恢复数据"></a>在备份服务器上恢复数据</h2><p>在主服务器上发生严重数据损坏的不幸情况下，您可以直接在备份服务器上恢复服务。恢复的服务可以直接在备份服务器上运行。</p>
+<p>在备份服务器上恢复数据有两个步骤：</p>
+<ul>
+<li>将最新的 mysql dump 出的文件导入 Seafile 备份服务器的mysql数据库中。</li>
+<li>在 Seafile 备份服务器上启用其他专业版功能特性，并启动seahub进程 <code>./seahub.sh start</code>。</li>
+</ul>
+<h4 id="第一步：导入mysqldump数据到备份服务中"><a href="#第一步：导入mysqldump数据到备份服务中" class="headerlink" title="第一步：导入mysqldump数据到备份服务中"></a>第一步：导入mysqldump数据到备份服务中</h4><p>将最新的mysqldump文件导入备份服务器的数据库:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u &lt;user&gt; -p&lt;pass&gt; &lt; dbdump.sql</span><br></pre></td></tr></table></figure>
+<p>将 <code>&lt;user&gt;</code> 和 <code>&lt;pass&gt;</code> 替换为您的 MySQL 的用户名密码。</p>
+<h4 id="第二步：在备份服务器上启动-seahub-进程"><a href="#第二步：在备份服务器上启动-seahub-进程" class="headerlink" title="第二步：在备份服务器上启动 seahub 进程"></a>第二步：在备份服务器上启动 seahub 进程</h4><p>将主服务器上的 Seafile 的配置复制到备份服务器，然后在备份服务器上启动seahub进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./seahub.sh start</span><br></pre></td></tr></table></figure>
+<h2 id="为-Seafile-集群配置备份服务器"><a href="#为-Seafile-集群配置备份服务器" class="headerlink" title="为 Seafile 集群配置备份服务器"></a>为 Seafile 集群配置备份服务器</h2><p>如果您的主服务作为一个 Seafile 集群运行，那么在设置备份服务器时需要注意两点:</p>
+<ol>
+<li>如果您使用的是MariaDB集群，那么您应该只使用其中一个 MySQL 实例作为主服务器。</li>
+<li>您必须更改<code>seafile.conf</code>并在每个 Seafile 节点上设置 <code>backup_url</code> 和<code>sync_token</code> 选项。所有主 Seafile 节点上的配置应该相同。它们都指向同一个备份服务器。</li>
+</ol>
+<p>目前，不能将备份服务部署为集群。也就是说，您只能使用一个节点作为备份服务器。这种支持将来可能会增加。</p>
+<h2 id="管理实时备份服务器"><a href="#管理实时备份服务器" class="headerlink" title="管理实时备份服务器"></a>管理实时备份服务器</h2><p><code>seaf-backup-cmd.sh</code> 脚本是管理备份服务器的工具。<code>seaf-backup-cmd.sh</code> 脚本提供以下命令:</p>
+<h3 id="手动触发资料库同步"><a href="#手动触发资料库同步" class="headerlink" title="手动触发资料库同步"></a>手动触发资料库同步</h3><p>您可以使用 <code>sync</code> 命令手动触发资料库的备份:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ./seaf-backup-cmd.sh sync &lt;library id&gt;</span><br></pre></td></tr></table></figure>
+<p>该命令将被阻塞，直到备份完成。</p>
+<h3 id="处理备份错误"><a href="#处理备份错误" class="headerlink" title="处理备份错误"></a>处理备份错误</h3><p><code>sync</code> 命令的 <code>--force</code> 选项可以用来强制执行失败的备份。备份失败通常是由主服务器上的资料库的数据损坏引起的。<code>--force</code> 选项要求备份跳过损坏的对象并完成备份。</p>
+<p>当发现备份错误时，请执行以下两个步骤:</p>
+<ol>
+<li>在主服务器上为失败的资料库运行 <code>seaf-fsck</code>。Fsck将修复资料库的任何损坏到最新的状态。</li>
+<li>在备份服务器上运行 <code>seaf-backup-cmd.sh sync --force &lt;library id&gt;</code>。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ask 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ask 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/seafile备份/" rel="tag"># seafile备份</a>
+          
+            <a href="/tags/seafile增量设置/" rel="tag"># seafile增量设置</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/Nginx配置相关笔记(一)/" rel="next" title="Nginx配置相关笔记">
+                <i class="fa fa-chevron-left"></i> Nginx配置相关笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ask</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Seafile-实时备份服务器"><span class="nav-number">1.</span> <span class="nav-text">Seafile 实时备份服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置实时备份服务器"><span class="nav-number">1.1.</span> <span class="nav-text">配置实时备份服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在备份服务器上安装-Seafile"><span class="nav-number">1.1.1.</span> <span class="nav-text">在备份服务器上安装 Seafile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Seafile-实时同步"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置 Seafile 实时同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库"><span class="nav-number">1.1.3.</span> <span class="nav-text">备份数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查备份状态"><span class="nav-number">1.1.4.</span> <span class="nav-text">检查备份状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在备份服务器上恢复数据"><span class="nav-number">1.2.</span> <span class="nav-text">在备份服务器上恢复数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：导入mysqldump数据到备份服务中"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">第一步：导入mysqldump数据到备份服务中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：在备份服务器上启动-seahub-进程"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">第二步：在备份服务器上启动 seahub 进程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-Seafile-集群配置备份服务器"><span class="nav-number">1.3.</span> <span class="nav-text">为 Seafile 集群配置备份服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理实时备份服务器"><span class="nav-number">1.4.</span> <span class="nav-text">管理实时备份服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#手动触发资料库同步"><span class="nav-number">1.4.1.</span> <span class="nav-text">手动触发资料库同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理备份错误"><span class="nav-number">1.4.2.</span> <span class="nav-text">处理备份错误</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="/js/src/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ask</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+<!--</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共13.3k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
