@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="单线多拨,多wan叠加," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="​         搬家了，换上了了20M的电信公寓宽带，官方给的使用文档居然坑爹的要死，需要手机下载他们的APP，然后扫码登录，这就算了，关键是登录后每24小时断一次，这也就导致了玩游戏玩得正High的时候，突然掉线，还被队友调侃，说我总是拔网线。 幸运的是，一不小心找到了电信的内部文档，不仅得知了光猫超级管理员密码，还得到了一个重要信息：原来除了扫码登录这种方式以外，公寓带宽也是可以通过PP">
+<meta name="keywords" content="单线多拨,多wan叠加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LEDE使用macvlan和mwan3实现单线多拨">
+<meta property="og:url" content="http://yoursite.com/2018/09/18/LEDE使用macvlan和mwan3实现单线多拨/index.html">
+<meta property="og:site_name" content="云麦笔记">
+<meta property="og:description" content="​         搬家了，换上了了20M的电信公寓宽带，官方给的使用文档居然坑爹的要死，需要手机下载他们的APP，然后扫码登录，这就算了，关键是登录后每24小时断一次，这也就导致了玩游戏玩得正High的时候，突然掉线，还被队友调侃，说我总是拔网线。 幸运的是，一不小心找到了电信的内部文档，不仅得知了光猫超级管理员密码，还得到了一个重要信息：原来除了扫码登录这种方式以外，公寓带宽也是可以通过PP">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/多线叠加.jpg">
+<meta property="og:image" content="http://yoursite.com/imgaes/LEDE-WAN-eth0.png">
+<meta property="og:image" content="http://yoursite.com/images/LEDE-add-VWAN.png">
+<meta property="og:image" content="http://yoursite.com/images/LEDE-WAN-gateway-metric.png">
+<meta property="og:image" content="http://yoursite.com/images/LEDE-mwan3-add-interface.png">
+<meta property="og:image" content="http://yoursite.com/images/LEDE-mwan3-add-rule.png">
+<meta property="og:updated_time" content="2018-09-18T04:30:14.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LEDE使用macvlan和mwan3实现单线多拨">
+<meta name="twitter:description" content="​         搬家了，换上了了20M的电信公寓宽带，官方给的使用文档居然坑爹的要死，需要手机下载他们的APP，然后扫码登录，这就算了，关键是登录后每24小时断一次，这也就导致了玩游戏玩得正High的时候，突然掉线，还被队友调侃，说我总是拔网线。 幸运的是，一不小心找到了电信的内部文档，不仅得知了光猫超级管理员密码，还得到了一个重要信息：原来除了扫码登录这种方式以外，公寓带宽也是可以通过PP">
+<meta name="twitter:image" content="http://yoursite.com/images/多线叠加.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/18/LEDE使用macvlan和mwan3实现单线多拨/"/>
+
+
+
+
+
+  <title>LEDE使用macvlan和mwan3实现单线多拨 | 云麦笔记</title>
+  
+
+
+
+
+
+
+
+
+  </head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云麦笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/18/LEDE使用macvlan和mwan3实现单线多拨/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ask">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云麦笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LEDE使用macvlan和mwan3实现单线多拨</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-18T12:23:34+08:00">
+                2018-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/路由器刷机/" itemprop="url" rel="index">
+                    <span itemprop="name">路由器刷机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/多线叠加.jpg" alt=""></p>
+<p>​         搬家了，换上了了20M的电信公寓宽带，官方给的使用文档居然坑爹的要死，需要手机下载他们的APP，然后扫码登录，这就算了，关键是登录后每24小时断一次，这也就导致了玩游戏玩得正High的时候，突然掉线，还被队友调侃，说我总是拔网线。</p>
+<p>幸运的是，一不小心找到了电信的内部文档，不仅得知了光猫超级管理员密码，还得到了一个重要信息：原来除了扫码登录这种方式以外，公寓带宽也是可以通过PPPoE方式使用账号密码登录的。于是我立马配置了一下路由器，没想到还真成功了。测了一下网速，足足的20M，嗯。。。对于习惯了大水管的我来说，好像有那么一点点慢呢。╮（╯＿╰）╭</p>
+<p>又仔细看了一下内部文档，上面写着扫码方式最多支持两台终端连接，而拨号方式不限制终端数量。啥？不限制？那我可以拨一个，再拨一个，然后就是20M * 2了？想想还真是那么回事，何不试试呢？说干就干，从角落里翻出吃灰的Netgear R6100，然后打开Google找了一圈，大致了解了一下实现单线多拨与负载均衡让网速叠加的方法。顺便吐槽一下那些教程，先不说格式多乱，反正就那么一两篇文章，到处转来转去。最终想想，还是把自己的折腾过程记录下来，说不定下次换新路由器以后，还能照着这个教程来，省得找来找去。</p>
+<a id="more"></a>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>前面说了，实现单线多拨和负载均衡，主要是靠macvlan和mwan3这两个软件。macvlan可以创建多个虚拟网卡链接到eth0，也是就WAN口，然后可以在这些虚拟网卡上创建多个虚拟WAN口，每个虚拟WAN口拨一个PPPoE账号，这样便可以实现一个单线多拨功能。而mwan3的作用，就是把你路由器的流量，做路由表级别的负载均衡，按照设置的优先级和权重分配到不同的WAN口上，从而起到网速叠加作用。</p>
+<p>如果路由器是运行的OpenWrt或者LEDE，只需用过以下命令安装这两个软件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install kmod-macvlan mwan3 luci-app-mwan3</span><br></pre></td></tr></table></figure>
+<p>其中，<code>luci-app-mwan3</code>是mwan3的luci界面，可以很方便的使用网页端对mwan3进行配置。</p>
+<h1 id="测试多拨"><a href="#测试多拨" class="headerlink" title="测试多拨"></a>测试多拨</h1><h2 id="创建虚拟网卡"><a href="#创建虚拟网卡" class="headerlink" title="创建虚拟网卡"></a>创建虚拟网卡</h2><p>即使内部文档写了拨号方式支持无限个终端，但是还是将信将疑，还是要自己试了才知道结果。如果这一步失败了，那也没有继续往下的必要了。不过幸运的是，虽然不是像文档上说的那样支持无限个终端，但是能够成功拨上两个相同的账号，也就是说如果配置得当，网速翻倍是没什么问题的。</p>
+<p>要实现多拨，首先要使用macvlan来创建虚拟网卡。网上找的教程五花八门，有把虚拟网卡链接到eth0的，也有链接到eth0.2的，至于具体是哪一个，要取决于路由器上VLAN是怎么划分的。如果像我一样，没有配置VLAN，那么就是eth0无误了。如果不确定是哪一个，可以进入路由器的luci界面，找到当前的WAN口，查看其对应的物理端口是哪一个，如图所示：</p>
+<p><img src="/imgaes/LEDE-WAN-eth0.png" alt=""></p>
+<p>在弄清楚WAN口对应的是哪一个网卡以后，便可使用macvlan创建虚拟网卡了，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip link add link eth0 name veth0 type macvlan</span><br><span class="line">ifconfig veth0 up</span><br></pre></td></tr></table></figure>
+<p>第一行命令是创建一个类型为macvlan，名字为veth0的虚拟网卡，并通过虚拟链路和eth0连接起来。</p>
+<p>第二行命令是启用刚刚创建的veth0网卡。执行完毕后，输入<code>ifconfig</code>命令，应该就能看到刚刚创建成功的虚拟网卡veth0了（谜之打码）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@NETGEARX:~# ifconfig </span><br><span class="line">//省略其他网卡信息</span><br><span class="line">veth0     Link encap:Ethernet  HWaddr **:**:**:**:**:**  </span><br><span class="line">          inet6 addr: fe80::34cb:ebff:fe14:c71/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:2912296 errors:0 dropped:9416 overruns:0 frame:0</span><br><span class="line">          TX packets:1397318 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1 </span><br><span class="line">          RX bytes:3174581557 (2.9 GiB)  TX bytes:128851574 (122.8 MiB)</span><br></pre></td></tr></table></figure>
+<p>一切OK？继续往下走。</p>
+<h2 id="创建虚拟WAN并拨号"><a href="#创建虚拟WAN并拨号" class="headerlink" title="创建虚拟WAN并拨号"></a>创建虚拟WAN并拨号</h2><p>虚拟网卡创建成功以后，就可以创建虚拟WAN了，这一步很简单，直接通过LEDE的luci界面完成就行。我将虚拟WAN口命名为vwan1，协议类型选PPPoE，物理接口选择刚刚创建的veth0：</p>
+<p><img src="/images/LEDE-add-VWAN.png" alt=""></p>
+<p>虚拟WAN口添加完成后，就像设置原来的WAN口一样设置好PPPoE账号和密码等信息。但是有一点需要注意：为了之后配置负载均衡，<strong>必须要给每个WAN口指定唯一的网关越点</strong>，如下图所示：</p>
+<p><img src="/images/LEDE-WAN-gateway-metric.png" alt=""></p>
+<p>设置完成后，点击保存并应用，查看是否能拨号成功。如果成功了，那么恭喜，否则，说明当前运营商线路不支持多拨，也就没有必要继续往下看了。</p>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p>即使多拨成功了，也只能说成功了一半。因为有些运营商限制了端口的速度，即使多拨成功，也可能无法超过运营商的限制，无法实现网速叠加，这样的多拨也没什么特别大的意义。至于是否能实现网速叠加，就需要用到mwan3了。</p>
+<p>mwan3是一个强大的软件，能实现路由表级别的负载均衡，通过设定的权重和网关越点来分配流量到不同的WAN口。结合luci-app-mwan3，配置mwan3也是非常简单的事情，主要配置这四个部分：接口、成员、策略和规则。在配置之前，先前往“网络” -&gt; “负载均衡” -&gt; “配置”，删除掉默认的配置项。</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>进入到“网络” -&gt; “负载均衡” -&gt; “配置” -&gt; “接口”，在此处配置路由器上需要负载均衡的WAN口。在此处，我将配置路由器原本的WAN口以及创建的虚拟VWAN。</p>
+<p>在添加前的输入框中输入wan（名称大小写要与<code>/etc/config/network</code>中对应），点击添加，进入到如下界面：</p>
+<p><img src="/images/LEDE-mwan3-add-interface.png" alt=""></p>
+<p>添加接口的时候，主要是要填写追踪的域名或者IP，用于判断接口是否在线，在此我填写的是DNSPod提供的公共DNS服务器：<code>129.29.29.29</code>，你也可以填写其他地址。后面的参数可以保持默认，也可以参照我的进行一些微调。</p>
+<p>按照相同的步骤添加VWAN，添加完毕以后点击保存，进行下一项的配置。</p>
+<h2 id="成员"><a href="#成员" class="headerlink" title="成员"></a>成员</h2><p>添加完接口以后，mwan3还无法直接使用他们。负载均衡的实现主要是靠每个WAN口的越点数和权重，mwan3中使用成员来设置每一个 MWAN 接口的跃点数 (即接口优先级) 和所占比重。</p>
+<p>进入到“网络” -&gt; “负载均衡” -&gt; “配置” -&gt; “成员”，在添加按钮前的输入框中输入member_wan，点击添加，将进入到添加成成员界面。此处配置非常简单，只需要为每个成员选好接口就行，跃点数和权重默认为1即可。</p>
+<p>按照相同的步骤添加member_vwan，然后继续配置策略。</p>
+<h2 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h2><p>策略”把成员进行分组，告诉 MWAN 如何分配“规则”中使用这一策略的流量，拥有较低跃点数的成员将会被优先使用，拥有相同跃点数的成员把流量进行负载均衡，进行负载均衡的成员之间拥有较高比重的成员将会被分配到更多流量。</p>
+<p>此处我们添加一个名为load_balance的策略，使用的成员选择member_wan和member_vwan，备用成员选择不可达，然后点保存即可。</p>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><p>规则基于 IP 地址、协议、端口把流量划分到指定的“策略”中。 规则按照从上到下的顺序进行匹配。除了第一条能够匹配一次通信的规则以外，其它规则将被忽略。不匹配任何规则的通信将会由系统默认路由表进行。</p>
+<p>此处我们添加一个名为default的规则，前四项留空，通讯协议选all，分配的策略选择之前添加的load_balance即可。</p>
+<p><img src="/images/LEDE-mwan3-add-rule.png" alt=""></p>
+<p>配置完成后，打开 <a href="http://beta.speedtest.net/" target="_blank" rel="noopener">http://beta.speedtest.net</a> 来测测网速吧！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="ask 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="ask 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/单线多拨/" rel="tag"># 单线多拨</a>
+          
+            <a href="/tags/多wan叠加/" rel="tag"># 多wan叠加</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/Seafile-实时备份服务器/" rel="next" title="Seafile 实时备份服务器">
+                <i class="fa fa-chevron-left"></i> Seafile 实时备份服务器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ask</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试多拨"><span class="nav-number">2.</span> <span class="nav-text">测试多拨</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建虚拟网卡"><span class="nav-number">2.1.</span> <span class="nav-text">创建虚拟网卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建虚拟WAN并拨号"><span class="nav-number">2.2.</span> <span class="nav-text">创建虚拟WAN并拨号</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number">3.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口"><span class="nav-number">3.1.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成员"><span class="nav-number">3.2.</span> <span class="nav-text">成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略"><span class="nav-number">3.3.</span> <span class="nav-text">策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则"><span class="nav-number">3.4.</span> <span class="nav-text">规则</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="/js/src/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ask</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+<!--</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15.5k字</span>
+</div>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
