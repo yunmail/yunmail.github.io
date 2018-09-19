@@ -4,6 +4,13 @@
     <title><![CDATA[Windows路由表配置：双网卡同时上公司内外网]]></title>
     <url>%2F2018%2F09%2F19%2FWindows%E8%B7%AF%E7%94%B1%E8%A1%A8%E9%85%8D%E7%BD%AE%EF%BC%9A%E5%8F%8C%E7%BD%91%E5%8D%A1%E5%90%8C%E6%97%B6%E4%B8%8A%E5%85%AC%E5%8F%B8%E5%86%85%E5%A4%96%E7%BD%91%2F</url>
     <content type="text"><![CDATA[&ensp;&ensp;&ensp;&ensp;现在许多单位，为了保证数据的安全和项目的保密，使用的台式机大多都配置了双网卡（带无线功能的笔记本就是双网卡），一个网卡连接公司内部局域网，一个网卡连接互联网，但是我们经常在配置网络地址的时候，提示“因特网将多个网关用于提供单一网络…….”，即不让配置两个网关，如下图所示。有时我们必须需要配置两个网关，才能方便工作，改怎么办呢？下面我介绍一种方法。 管理员模式CMD 路由表解释 1route print -4 删除默认设置 1route delete 0.0.0.0 外网路由，全走无线，192.168.0.1为无线网关 1route add 0.0.0.0 mask 0.0.0.0 192.168.0.1 –p 内网路由，全走有线，192.168.12.1为有线网关 1route add 192.168.0.0 mask 255.255.0.0 192.168.12.1 –p]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>双网卡设置</tag>
+        <tag>windows设置双网卡</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[LEDE使用macvlan和mwan3实现单线多拨]]></title>
