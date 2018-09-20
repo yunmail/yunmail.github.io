@@ -5,14 +5,19 @@
     
   <url>
     <loc>http://yoursite.com/2018/09/20/Hexo%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%BF%81%E7%A7%BB/</loc>
-    <lastmod>2018-09-20T03:32:30.160Z</lastmod>
+    <lastmod>2018-09-20T03:37:59.630Z</lastmod>
     <data>
         <display>
         <title>Hexo，数据同步与迁移</title>
         <pubTime>2018-09-20T03:26:54.000Z</pubTime>
         
+        <tag>hexo迁移</tag>
+         
          
            
+             
+              <breadCrumb title="hexo" url="http://yoursite.com/categories/hexo/"/>
+          
         </display>
     </data>
     </url>
