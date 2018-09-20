@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>http://yoursite.com/2018/09/20/Hexo%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%BF%81%E7%A7%BB/</loc>
+    <lastmod>2018-09-20T03:32:30.160Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo，数据同步与迁移</title>
+        <pubTime>2018-09-20T03:26:54.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2018/09/19/Windows%E8%B7%AF%E7%94%B1%E8%A1%A8%E9%85%8D%E7%BD%AE%EF%BC%9A%E5%8F%8C%E7%BD%91%E5%8D%A1%E5%90%8C%E6%97%B6%E4%B8%8A%E5%85%AC%E5%8F%B8%E5%86%85%E5%A4%96%E7%BD%91/</loc>
-    <lastmod>2018-09-19T03:04:09.659Z</lastmod>
+    <lastmod>2018-09-19T03:04:22.054Z</lastmod>
     <data>
         <display>
         <title>Windows路由表配置：双网卡同时上公司内外网</title>
