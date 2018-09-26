@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Shadowsocks,代理,Terminal,SSH," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -86,20 +86,19 @@
 
 
 
-<meta name="description" content="热爱工作的我，时不时需要在家办公。但是由于测试数据库，redis，es 都只能从公司内网访问，所以就需要一个从外网访问公司内网环境的方案。">
-<meta name="keywords" content="Shadowsocks,代理,Terminal,SSH">
+<meta name="description" content="面试或者投简历经常看到这条要求，虽然工作中基本用不到，但还是需要了解一下比较好。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用 SSH 隧道或 SS 来实现内网穿透">
-<meta property="og:url" content="http://yoursite.com/2018/09/06/利用-SSH-隧道或-SS-来实现内网穿透/index.html">
+<meta property="og:title" content="你了解面试时经常被问到的TCP&#x2F;IP 协议吗?">
+<meta property="og:url" content="http://yoursite.com/2018/09/26/你了解面试时经常被问到的TCP-IP-协议吗/index.html">
 <meta property="og:site_name" content="云麦笔记">
-<meta property="og:description" content="热爱工作的我，时不时需要在家办公。但是由于测试数据库，redis，es 都只能从公司内网访问，所以就需要一个从外网访问公司内网环境的方案。">
+<meta property="og:description" content="面试或者投简历经常看到这条要求，虽然工作中基本用不到，但还是需要了解一下比较好。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/img/ss_local_socks.png">
-<meta property="og:updated_time" content="2018-09-06T07:34:50.064Z">
+<meta property="og:image" content="http://yoursite.com/images/tcp.jpg">
+<meta property="og:updated_time" content="2018-09-26T04:03:18.621Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用 SSH 隧道或 SS 来实现内网穿透">
-<meta name="twitter:description" content="热爱工作的我，时不时需要在家办公。但是由于测试数据库，redis，es 都只能从公司内网访问，所以就需要一个从外网访问公司内网环境的方案。">
-<meta name="twitter:image" content="http://yoursite.com/img/ss_local_socks.png">
+<meta name="twitter:title" content="你了解面试时经常被问到的TCP&#x2F;IP 协议吗?">
+<meta name="twitter:description" content="面试或者投简历经常看到这条要求，虽然工作中基本用不到，但还是需要了解一下比较好。">
+<meta name="twitter:image" content="http://yoursite.com/images/tcp.jpg">
 
 
 
@@ -129,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/06/利用-SSH-隧道或-SS-来实现内网穿透/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/26/你了解面试时经常被问到的TCP-IP-协议吗/"/>
 
 
 
 
 
-  <title>利用 SSH 隧道或 SS 来实现内网穿透 | 云麦笔记</title>
+  <title>你了解面试时经常被问到的TCP/IP 协议吗? | 云麦笔记</title>
   
 
 
@@ -272,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/利用-SSH-隧道或-SS-来实现内网穿透/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/你了解面试时经常被问到的TCP-IP-协议吗/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ask">
@@ -289,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">利用 SSH 隧道或 SS 来实现内网穿透</h1>
+          <h1 class="post-title" itemprop="name headline">你了解面试时经常被问到的TCP/IP 协议吗?</h1>
         
 
         <div class="post-meta">
@@ -301,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T15:24:59+08:00">
-                2018-09-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T11:53:16+08:00">
+                2018-09-26
               </time>
             
 
@@ -311,28 +310,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -355,7 +332,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  462
+                  2.1k
                 </span>
               
 
@@ -371,7 +348,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -392,25 +369,48 @@
       
 
       
-        <p>热爱工作的我，时不时需要在家办公。但是由于测试数据库，redis，es 都只能从公司内网访问，所以就需要一个从外网访问公司内网环境的方案。</p>
+        <p><img src="/images/tcp.jpg" alt=""></p>
+<p>面试或者投简历经常看到这条要求，虽然工作中基本用不到，但还是需要了解一下比较好。</p>
 <a id="more"></a>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先需要一个在公司内网且有公网 IP 的机器，可以在这台机器上配置 SS Server 或者有这台机器的 SSH 权限。</p>
-<p>获取 SS 账号或者 SSH 权限后，在本机执行以下操作，开始监听本地的 socks5 端口。</p>
-<h2 id="启动-socks-端口监听"><a href="#启动-socks-端口监听" class="headerlink" title="启动 socks 端口监听"></a>启动 socks 端口监听</h2><h3 id="SS-方案"><a href="#SS-方案" class="headerlink" title="SS 方案"></a>SS 方案</h3><ol>
-<li>本机启动 SS 连接内网的 SS Server</li>
-<li>找到 shadowsocks 客户端的本地接口配置，记下是 socks 还是 http 并且记录端口号。</li>
-</ol>
-<p>比如我这个配置是 socks5 协议，地址 <code>127.0.0.1</code> 端口 <code>1080</code></p>
-<p><img src="/img/ss_local_socks.png" alt=""></p>
-<h3 id="SSH-方案"><a href="#SSH-方案" class="headerlink" title="SSH 方案"></a>SSH 方案</h3><ol>
-<li>本机终端执行命令<code>ssh -D 1080 &lt;remote_user&gt;@&lt;remote_host&gt; -p &lt;port&gt;</code></li>
-</ol>
-<h2 id="配置-proxychains"><a href="#配置-proxychains" class="headerlink" title="配置 proxychains"></a>配置 proxychains</h2><p>如果想要通过终端跑程序时候也走代理，那么需要安装 proxychains</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install proxychains-ng</span><br></pre></td></tr></table></figure>
-<p>安装完成后编辑 <code>/usr/local/etc/proxychains.conf</code> 文件，修改最后一行为 <code>socks5 127.0.0.1 1080</code> 保存退出。</p>
-<p>此时已经大功告成，以后执行命令只要开头 <code>proxychains4</code> 即可通过代理穿透到内网访问。比如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ proxychains4 python api/run.py</span><br><span class="line">[proxychains] config file found: /usr/local/etc/proxychains.conf</span><br><span class="line">[proxychains] preloading /usr/local/Cellar/proxychains-ng/4.12_1/lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.12</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.12</span><br><span class="line">Logger init with level 10</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  192.168.11.122:3306  ...  OK</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  192.168.11.122:3306  ...  OK</span><br></pre></td></tr></table></figure>
-<h2 id="其他-GUI-软件"><a href="#其他-GUI-软件" class="headerlink" title="其他 GUI 软件"></a>其他 GUI 软件</h2><p>当使用 Navicat 或 DataGrip 之类的 GUI 数据库客户端时候，只需要在 app 的代理设置填写一下 socks 协议监听地址和端口即可实现 app 全局流量通过代理穿透到内网执行。</p>
+<h2 id="1-什么是-TCP-IP"><a href="#1-什么是-TCP-IP" class="headerlink" title="1.什么是 TCP/IP?"></a>1.什么是 TCP/IP?</h2><p>TCP/IP 是一类协议系统，它是用于网络通信的一套协议集合．<br>传统上来说 TCP/IP 被认为是一个四层协议</p>
+<p>1) 网络接口层:<br>主要是指物理层次的一些接口,比如电缆等．</p>
+<p>2) 网络层:<br>提供独立于硬件的逻辑寻址,实现物理地址与逻辑地址的转换．</p>
+<p>在 TCP / IP 协议族中，网络层协议包括 IP 协议（网际协议），ICMP 协议（ Internet 互联网控制报文协议），以及 IGMP 协议（ Internet 组管理协议）.</p>
+<p>3) 传输层:<br>为网络提供了流量控制,错误控制和确认服务.</p>
+<p>在　TCP / IP　协议族中有两个互不相同的传输协议： TCP（传输控制协议）和 UDP（用户数据报协议）.</p>
+<p>4) 应用层:<br>为网络排错,文件传输,远程控制和　Internet 操作提供具体的应用程序</p>
+<h2 id="2-数据包"><a href="#2-数据包" class="headerlink" title="2.数据包"></a>2.数据包</h2><p>在 TCP / IP　协议中数据先由上往下将数据装包，然后由下往上拆包</p>
+<p>在装包的时候，每一层都会增加一些信息用于传输，这部分信息就叫报头，当上层的数据到达本层的时候，会将数据加上本层的报头打包在一起，继续往下传递．</p>
+<p>装包</p>
+<p>在拆包的时候，每一层将本层需要的报头读取后，就将剩下的数据往上传．</p>
+<h2 id="3-网络接口层"><a href="#3-网络接口层" class="headerlink" title="3.网络接口层"></a>3.网络接口层</h2><p>这一块主要主要涉及到一些物理传输，比如以太网，无线局域网．这里就不做详细的介绍了</p>
+<h2 id="4-网络层"><a href="#4-网络层" class="headerlink" title="4.网络层"></a>4.网络层</h2><p>前面有提到，网络层主要就是做物理地址与逻辑地址之间的转换．</p>
+<p>目前市场上应用的最多的是 32 位二进制的 IPv4 ,因为 IPv4 的地址已经不够用了，所以 128 位二进制的 IPv6 应用越来越广泛了(但是下面的介绍都是基于 IPv4 进行的)</p>
+<p>1) IP:<br>TCP/IP 协议网络上的每一个网络适配器都有一个唯一的 IP 地址.</p>
+<p>IP 地址是一个 32 位的地址,这个地址通常分成 4 端，每 8 个二进制为一段，但是为了方便阅读，通常会将每段都转换为十进制来显示，比如大家非常熟悉的 192.168.0.1</p>
+<p>IP 地址分为两个部分：</p>
+<p>网络 ID<br>主机 ID<br>但是具体哪部分属于网络 ID,哪些属于主机 ID 并没有规定.</p>
+<p>因为有些网络是需要很多主机的，这样的话代表主机 ID 的部分就要更多，但是有些网络需要的主机很少，这样主机 ID 的部分就应该少一些.</p>
+<p>绝大部分 IP 地址属于以下几类</p>
+<p>A 类地址：IP 地址的前 8 位代表网络 ID ，后 24 位代表主机 ＩＤ。<br>B 类地址：IP 地址的前 16 位代表网络 ID ，后 16 位代表主机 ＩＤ。<br>C 类地址：IP 地址的前 24 位代表网络 ID ，后 8 位代表主机 ＩＤ。<br>这里能够很明显的看出 A 类地址能够提供出的网络 ID 较少，但是每个网络可以拥有非常多的主机</p>
+<p>但是我们怎么才能看出一个 IP 地址到底是哪类地址呢？</p>
+<p>如果 32 位的 IP 地址以 0 开头，那么它就是一个 A 类地址。<br>如果 32 位的 IP 地址以 10 开头，那么它就是一个 B 类地址。<br>如果 32 位的 IP 地址以 110 开头，那么它就是一个 C 类地址。<br>那么转化为十进制（四段）的话，我们就能以第一段中的十进制数来区分 IP 地址到底是哪类地址了。</p>
+<p>注意：<br>十进制第一段大于 223 的属于 D 类和 E 类地址，这两类比较特殊也不常见，这里就不做详解介绍了。<br>每一类都有一些排除地址，这些地址并不属于该类，他们是在一些特殊情况使用地址（后面会介绍）<br>除了这样的方式来划分网络，我们还可以把每个网络划分为更小的网络块，称之为子网（后面会介绍）<br>全是 0 的主机 ID 代表网络本身，比如说 IP 地址为 130.100.0.0 指的是网络 ID 为130.100 的 B 类地址。</p>
+<p>全是 1 的主机 ID 代表广播，是用于向该网络中的全部主机方法消息的。 IP 地址为 130.100.255.255 就是网络 ID 为 130.100 网络的广播地址（二进制 IP 地址中全是 1 ，转换为十进制就是 255 ）</p>
+<p>以十进制 127 开头的地址都是环回地址。目的地址是环回地址的消息，其实是由本地发送和接收的。主要是用于测试 TCP/IP 软件是否正常工作。我们用 ping 功能的时候，一般用的环回地址是 127.0.0.1</p>
+<p>2)地址解析协议 ARP<br>简单的来说 ARP 的作用就是把 IP 地址映射为物理地址，而与之相反的 RARP（逆向 ARP）就是将物理地址映射为 IP 地址。</p>
+<p>3)子网<br>前面提到了 IP 地址的分类，但是对于 A 类和 B 类地址来说，每个网络下的主机数量太多了，那么网络的传输会变得很低效，并且很不灵活。比如说 IP地址为 100.0.0.0 的 A 类地址，这个网络下的主机数量超过了 1600 万台。</p>
+<p>所以子网掩码的出现就是为了解决这样的问题。</p>
+<p>我们先回顾一下之前如何区分主机 IP 和网络 IP 的。</p>
+<p>以 A 类地址 99.10.10.10 为例，前 8 位是网络 IP ，后 24 位是主机 IP 。（如下图）</p>
+<p>子网掩码也是一个 32 为的二进制数，也可以用四个十进制数来分段，他的每一位对应着 IP 地址的相应位置，数值为 1 时代表的是非主机位，数值为 0 时代表是主机位。</p>
+<p>由表格可以很清晰的看出，网络 IP 仍是由之前的分类来决定到底是多少位，主机 IP 则是由子网掩码值为 0 的位数来决定，剩下的则是子网 IP</p>
+<h2 id="5-传输层"><a href="#5-传输层" class="headerlink" title="5 传输层"></a>5 传输层</h2><p>传输层提供了两种到达目标网络的方式</p>
+<p>传输控制协议（TCP）：提供了完善的错误控制和流量控制，能够确保数据正常传输，是一个面向连接的协议。<br>用户数据报协议（UDP）：只提供了基本的错误检测，是一个无连接的协议。<br>特点：<br>1）UDP：<br>把数据打包<br>数据大小有限制（64k）<br>不建立连接<br>速度快，但可靠性低<br>2）TCP：<br>建立连接通道<br>数据大小无限制<br>速度慢，但是可靠性高</p>
+<h2 id="6-应用层"><a href="#6-应用层" class="headerlink" title="6 应用层"></a>6 应用层</h2><p>应用层做为 TCP/IP 协议的最高层级。</p>
+<p><strong>运行在TCP协议上的协议：</strong><br>HTTP（Hypertext Transfer Protocol，超文本传输协议），主要用于普通浏览。<br>HTTPS（Hypertext Transfer Protocol over Secure Socket Layer, or HTTP over SSL，安全超文本传输协议）,HTTP协议的安全版本。<br>FTP（File Transfer Protocol，文件传输协议），由名知义，用于文件传输。<br>POP3（Post Office Protocol, version 3，邮局协议），收邮件用。<br>SMTP（Simple Mail Transfer Protocol，简单邮件传输协议），用来发送电子邮件。<br>TELNET（Teletype over the Network，网络电传），通过一个终端（terminal）登陆到网络。<br>SSH（Secure Shell，用于替代安全性差的TELNET），用于加密安全登陆用。</p>
+<p><strong>运行在UDP协议上的协议：</strong><br>BOOTP（Boot Protocol，启动协议），应用于无盘设备。<br>NTP（Network Time Protocol，网络时间协议），用于网络同步。<br>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议），动态配置IP地址。</p>
+<p><strong>其他：</strong><br>DNS（Domain Name Service，域名服务），用于完成地址查找，邮件转发等工作（运行在TCP和UDP协议上）。<br>ECHO（Echo Protocol，回绕协议），用于查错及测量应答时间（运行在TCP和UDP协议上）。<br>SNMP（Simple Network Management Protocol，简单网络管理协议），用于网络信息的收集和网络管理。<br>ARP（Address Resolution Protocol，地址解析协议），用于动态解析以太网硬件的地址。</p>
 
       
     </div>
@@ -455,18 +455,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Shadowsocks/" rel="tag"># Shadowsocks</a>
-          
-            <a href="/tags/代理/" rel="tag"># 代理</a>
-          
-            <a href="/tags/Terminal/" rel="tag"># Terminal</a>
-          
-            <a href="/tags/SSH/" rel="tag"># SSH</a>
-          
-        </div>
-      
 
       
       
@@ -476,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/06/VPS服务器搭建Hexo博客教程/" rel="next" title="VPS服务器搭建Hexo博客教程">
-                <i class="fa fa-chevron-left"></i> VPS服务器搭建Hexo博客教程
+              <a href="/2018/09/21/Linux系统下使用Gogs搭建Git-Service/" rel="next" title="Linux系统下使用Gogs搭建Git Service">
+                <i class="fa fa-chevron-left"></i> Linux系统下使用Gogs搭建Git Service
               </a>
             
           </div>
@@ -485,10 +473,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/06/git学习笔记/" rel="prev" title="git学习笔记">
-                git学习笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -620,7 +604,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动-socks-端口监听"><span class="nav-number">2.</span> <span class="nav-text">启动 socks 端口监听</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SS-方案"><span class="nav-number">2.1.</span> <span class="nav-text">SS 方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH-方案"><span class="nav-number">2.2.</span> <span class="nav-text">SSH 方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-proxychains"><span class="nav-number">3.</span> <span class="nav-text">配置 proxychains</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他-GUI-软件"><span class="nav-number">4.</span> <span class="nav-text">其他 GUI 软件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是-TCP-IP"><span class="nav-number">1.</span> <span class="nav-text">1.什么是 TCP/IP?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-数据包"><span class="nav-number">2.</span> <span class="nav-text">2.数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-网络接口层"><span class="nav-number">3.</span> <span class="nav-text">3.网络接口层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-网络层"><span class="nav-number">4.</span> <span class="nav-text">4.网络层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-传输层"><span class="nav-number">5.</span> <span class="nav-text">5 传输层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-应用层"><span class="nav-number">6.</span> <span class="nav-text">6 应用层</span></a></li></ol></div>
             
 
           </div>
